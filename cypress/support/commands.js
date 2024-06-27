@@ -1,3 +1,4 @@
+import * as credentials from '../support/credentials.js'
 // ***********************************************
 // This example commands.js shows you how to
 // create various custom commands and overwrite
@@ -23,3 +24,12 @@
 //
 // -- This will overwrite an existing command --
 // Cypress.Commands.overwrite('visit', (originalFn, url, options) => { ... })
+
+Cypress.Commands.add('login', () => {
+    cy.visit('https://dev.omni-dispatch.com/login');
+    cy.get('#input-0').type(credentials.adminCredentials.admin_email)
+    cy.get('#input-2').type(credentials.adminCredentials.admin_password)
+    cy.get('button[type=button]').click()
+    cy.visit('https://dev.omni-dispatch.com/fleets/trucks')
+    cy.get('div.v-avatar').should('be.visible')
+})
